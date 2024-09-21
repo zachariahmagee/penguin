@@ -1,7 +1,8 @@
-package template.library;
+package zm.penguin;
 
 
 import processing.core.*;
+import zm.penguin.styles.Style;
 
 /**
  * This is a template class and can be used to start a new processing Library.
@@ -14,37 +15,34 @@ import processing.core.*;
  * @example Hello 
  */
 
-public class HelloLibrary {
+public class Penguin {
 	
-	// myParent is a reference to the parent sketch
-	PApplet myParent;
-
-	int myVariable = 0;
-	
+	// app is a reference to the parent sketch
+	public static PApplet app;
+	public Style style;
 	public final static String VERSION = "##library.prettyVersion##";
-	
+	public static boolean debug = false;
 
 	/**
 	 * a Constructor, usually called in the setup() method in your sketch to
 	 * initialize and start the Library.
 	 * 
-	 * @example Hello
-	 * @param theParent the parent PApplet
+	 * @class Penguin
+	 * @param pApplet the parent PApplet
 	 */
-	public HelloLibrary(PApplet theParent) {
-		myParent = theParent;
-		welcome();
+	public Penguin(PApplet pApplet) {
+		app = pApplet;
+		Context.initialize(app);
+		style = new Style(app);
 	}
 	
-	
+	public void setDebug(boolean debug) {
+		Penguin.debug = debug;
+	}
 	private void welcome() {
 		System.out.println("##library.name## ##library.prettyVersion## by ##author##");
 	}
-	
-	
-	public String sayHello() {
-		return "hello library.";
-	}
+
 	/**
 	 * return the version of the Library.
 	 * 
@@ -52,23 +50,6 @@ public class HelloLibrary {
 	 */
 	public static String version() {
 		return VERSION;
-	}
-
-	/**
-	 * 
-	 * @param theA the width of test
-	 * @param theB the height of test
-	 */
-	public void setVariable(int theA, int theB) {
-		myVariable = theA + theB;
-	}
-
-	/**
-	 * 
-	 * @return int
-	 */
-	public int getVariable() {
-		return myVariable;
 	}
 }
 
