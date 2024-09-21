@@ -3,7 +3,7 @@ package zm.penguin.components;
 import processing.core.*;
 
 public abstract class Component {
-    PApplet app;
+    protected PApplet app;
 
     public boolean isVisible = false;
     public String name;
@@ -124,7 +124,7 @@ public abstract class Component {
     }
 
     public void click(int x, int y) {
-        //println(x,y);
+       this.action.run();
     }
 
     public void rightClick(int x, int y) {}
