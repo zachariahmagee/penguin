@@ -1,0 +1,30 @@
+
+
+
+import processing.javafx.*;
+import zm.penguin.*;
+import zm.penguin.components.*;
+import static zm.penguin.styles.Theme.*;
+
+Penguin p;
+Button button;
+int flip = 0;
+void setup() {
+  size(400, 400, FX2D);
+  background(Theme.background);
+  p = new Penguin(this);
+  button = new Button("What", 200, 200, ()->{ if (flip % 2 == 0) background(color(0,255,0)); else background(255); });
+  penguin.components.add(button);
+}
+
+void draw() {
+  button.draw();
+}
+
+void mousePressed(MouseEvent e) {
+  //println(button.mouseOver(mouseX,mouseY));
+  //if (button.mouseOver(mouseX,mouseY)) {
+  //  button.action.run();
+   flip++;
+  //}
+}
