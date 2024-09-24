@@ -1,6 +1,8 @@
 package zm.penguin.interactions;
 
+import processing.core.PApplet;
 import zm.penguin.components.Component;
+import static zm.penguin.styles.Theme.*;
 
 import static processing.core.PApplet.*;
 
@@ -26,9 +28,31 @@ public class ScrollBar extends Component {
         this.inverted = inverted;
         this.mouseOffset = 0;
         this.active = false;
+
+        this.f = scrollbar_bg;
+        this.s = scrollbar;
+//        this.w = 15f/2;
     }
 
-    public void draw() {}
+    @Override
+    public void draw() {
+        app.rectMode(CORNER);
+        app.noStroke();
+        PApplet.println("DRAWING", orientation);
+        if (orientation == VERTICAL) {
+            app.fill(blue);
+            app.rect(l - w, t, w, totalLength);
+
+            app.fill(blue);
+            app.rect(l, t, w, h, 5, 5, 5, 5);
+        } else {
+            app.fill(scrollbar_bg);
+            app.rect(l, t, totalLength,h);
+
+            app.fill(scrollbar);
+            app.rect(l, t + 1, w, h, 5,5,5,5);
+        }
+    }
 
     @Override
     public String toString() {

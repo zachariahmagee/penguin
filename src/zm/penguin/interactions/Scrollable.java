@@ -17,8 +17,8 @@ public abstract class Scrollable<T extends Component> extends Container<T> {
     public int contentHeight = 0;
     public int contentWidth = 0;
 
-    public int scrollbar_bg = idle;
-    public int scrollbar_f  = lightgrey;
+//    public int scrollbar_bg = idle;
+//    public int scrollbar_f  = lightgrey;
 //    public int startingPoint = 0;
 //    int contentSize = 0;
 
@@ -117,6 +117,8 @@ public abstract class Scrollable<T extends Component> extends Container<T> {
     @Override
     public void mouseReleased(int x, int y) {
         if (scroll.locked) scroll.locked = false;
+
+        super.mouseReleased(x,y);
     }
 
     public  void scrollWheel(float amount) {

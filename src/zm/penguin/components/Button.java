@@ -18,6 +18,7 @@ public class Button extends TextComponent {
         this.w = Style.button_w;
         this.h = Style.button_h;
         this.f = Theme.button1;
+        this.s = Theme.outline;
     }
     public Button(String text) {
         this();

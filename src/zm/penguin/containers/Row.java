@@ -1,12 +1,13 @@
 package zm.penguin.containers;
 
-import zm.penguin.Penguin;
 import zm.penguin.components.Component;
 import zm.penguin.interactions.ScrollBar;
 //import zm.penguin.interactions.Scrollable;
+import zm.penguin.interactions.Scrollable;
 import zm.penguin.utils.Layout;
 
 import static processing.core.PApplet.*;
+import static zm.penguin.styles.Theme.*;
 
 public class Row<T extends Component> extends Scrollable<T> {
     public int intitialWidth = 0;
@@ -44,16 +45,16 @@ public class Row<T extends Component> extends Scrollable<T> {
             if (scrollAmount == -1) scrollAmount = 0;
             else if (scrollAmount > contentWidth - w) scrollAmount = contentWidth - w;
 
-            app.fill(scrollbar_bg);
-            app.rect(l, b - 15f/2, w, 15f/2);
+//            app.fill(scrollbar_bg);
+//            app.rect(l, b - 15f/2, w, 15f/2);
 
             int scrollbarSize = w - round(w * (contentWidth - (float)w / contentWidth));
             if (scrollbarSize < getAverageComponentWidth()) scrollbarSize = getAverageComponentWidth();
             int scrollbarOffset = round((w - scrollbarSize) * (scrollAmount / (float)(contentWidth - w)));
 
-            app.noStroke();
-            app.fill(scrollbar_f);
-            app.rect(sL + scrollbarOffset, b - 15f/2 + 1, (15F/2)-2, 5,5,5,5,5);
+//            app.noStroke();
+//            app.fill(scrollbar);
+//            app.rect(sL + scrollbarOffset, b - 15f/2 + 1, scrollbarSize, (15F/2)-2,5,5,5,5);
 
             scroll.update(contentWidth,
                     w,
@@ -63,6 +64,9 @@ public class Row<T extends Component> extends Scrollable<T> {
                     15/2);
 
             sL -= scrollAmount;
+            scroll.setVisibility(true);
+        } else {
+            scroll.setVisibility(false);
         }
 
         app.fill(f);
@@ -91,6 +95,7 @@ public class Row<T extends Component> extends Scrollable<T> {
                 c.setLocation(sL + prevWidth, t);
                 c.draw();
             }
+            if (scroll.isVisible()) scroll.draw();
         } catch (Exception e) {
             if (debug) {
                 println(this, e);

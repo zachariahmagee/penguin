@@ -90,6 +90,8 @@ public class Theme {
     public static final int error          = orange;
     public static final int error_text     = norange;
 
+    public static final int scrollbar_bg = idle;
+    public static final int scrollbar = lightgrey;
 
 }
 

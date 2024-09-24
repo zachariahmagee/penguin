@@ -3,9 +3,11 @@ package zm.penguin.containers;
 import zm.penguin.components.Component;
 import zm.penguin.components.Heading;
 import zm.penguin.interactions.ScrollBar;
-//import zm.penguin.interactions.Scrollable;
+
 import static zm.penguin.styles.Theme.*;
 import static zm.penguin.styles.Style.*;
+
+import zm.penguin.interactions.Scrollable;
 import zm.penguin.utils.Layout;
 
 import static processing.core.PApplet.*;
@@ -53,16 +55,16 @@ public class Column<T extends Component> extends Scrollable<T> {
                 if (scrollAmount == -1) scrollAmount = 0;
                 else if (scrollAmount > contentHeight - h) scrollAmount = contentHeight - h;
 
-                app.noStroke();
-                app.fill(scrollbar_bg);
-                app.rect(r - 15f / 2, t, 15f / 2, h);
+//                app.noStroke();
+//                app.fill(scrollbar_bg);
+//                app.rect(r - 15f / 2, t, 15f / 2, h);
 
                 int scrollbarSize = h - round(h * (float) (contentHeight - h / contentHeight));
                 if (scrollbarSize < getAverageComponentHeight()) scrollbarSize = getAverageComponentHeight();
                 int scrollbarOffset = round((h - scrollbarSize) * (scrollAmount / (float) (contentHeight - h)));
 
-                app.fill(scrollbar_f);
-                app.rect(r - 15f / 2, sT + scrollbarOffset, 15f / 2, scrollbarSize, 5, 5, 5, 5);
+//                app.fill(scrollbar);
+//                app.rect(r - 15f / 2, sT + scrollbarOffset, 15f / 2, scrollbarSize, 5, 5, 5, 5);
 
                 scroll.update(contentHeight,
                         h,
@@ -72,6 +74,9 @@ public class Column<T extends Component> extends Scrollable<T> {
                         scrollbarSize);
 
                 sT -= scrollAmount;
+                scroll.setVisibility(true);
+            } else {
+                scroll.setVisibility(false);
             }
 
             int prevHeight = initialHeight;
@@ -97,37 +102,14 @@ public class Column<T extends Component> extends Scrollable<T> {
             app.fill(s);
             app.rect(l, b - bottombar_h, w, 1);
             app.rect(r, b - bottombar_h, 1, b);
+
+            if (scroll.isVisible()) scroll.draw();
         } catch (Exception e) {
             println(e);
         }
 
     }
 
-//    @Override
-//    public void click(int x, int y) {
-//        if (scrollAmount != -1 && scroll.mouseOver(x,y)) {
-//            scroll.locked = true;
-//        }
-//    }
-//
-//    @Override
-//    public void mouseDragged(int x, int y) {
-//        if (scroll.locked) {
-//            scrollbarUpdate(x, y);
-//        }
-//    }
-//
-//    @Override
-//    public void mouseMoved(int x, int y) {
-//        if (scroll.mouseOver(x,y)) app.cursor(HAND);
-//        else app.cursor(TEXT);
-//    }
-//
-//    @Override
-//    public void mouseReleased(int x, int y) {
-//        if (scroll.locked) scroll.locked = false;
-//    }
-//
     @Override
     public String toString() {
         return "";

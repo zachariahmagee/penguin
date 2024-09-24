@@ -2,10 +2,9 @@ package zm.penguin;
 
 import processing.core.*;
 import processing.event.*;
-import static processing.core.PApplet.*;
 
 import zm.penguin.components.Component;
-import zm.penguin.containers.Scrollable;
+import zm.penguin.interactions.Scrollable;
 import zm.penguin.styles.Style;
 
 import java.util.ArrayList;

@@ -101,6 +101,7 @@ public abstract class Container<T extends Component> extends Component implement
                 }
             }
         }
+        move.run();
     }
 
     @Override
@@ -127,6 +128,7 @@ public abstract class Container<T extends Component> extends Component implement
                 }
             }
         }
+        action.run();
     }
 
     @Override
@@ -134,6 +136,7 @@ public abstract class Container<T extends Component> extends Component implement
         for (Component c : components) {
            c.mouseReleased(x,y);
         }
+        release.run();
     }
 
     @Override
@@ -143,8 +146,6 @@ public abstract class Container<T extends Component> extends Component implement
             c.setVisibility(newState);
         });
     }
-
-    //void onClick(Runnable fn) {}
 
     public void keypressed(char c, int keycode) {
 

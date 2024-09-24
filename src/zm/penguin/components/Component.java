@@ -2,6 +2,7 @@ package zm.penguin.components;
 
 import processing.core.*;
 import zm.penguin.Context;
+import zm.penguin.containers.Container;
 
 public abstract class Component {
     protected PApplet app;
@@ -32,6 +33,9 @@ public abstract class Component {
     boolean onTop = false;
 
     public Runnable action = () -> {};
+    public Runnable move = () -> {};
+    public Runnable release = () -> {};
+
 
     public Component() {
         this.app = Context.getApplet();
@@ -117,6 +121,8 @@ public abstract class Component {
     public void onClick(Runnable function) {
         this.action = function;
     }
+    public void onRelease(Runnable function) { this.release = function; }
+    public void onMouseMove(Runnable function) { this.move = function; }
 
     public boolean mouseOver(int x, int y) {
         return ((y >= t)
@@ -126,8 +132,8 @@ public abstract class Component {
         );
     }
     public void mouseDragged(int x, int y) {}
-    public void mouseMoved(int x, int y) {}
-    public void mouseReleased(int x, int y) {}
+    public void mouseMoved(int x, int y) { move.run(); }
+    public void mouseReleased(int x, int y) { release.run(); }
 
     public void signalThemeChange(int theme) {
 

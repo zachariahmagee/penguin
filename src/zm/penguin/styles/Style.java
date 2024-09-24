@@ -15,6 +15,12 @@ public class Style {
     public static int controls_w = 200;
     public static int bottombar_h = 23;
 
+    public static int spacing = 5;
+    public static int border = 15;
+
+    public static int radio_width = 15;
+    public static int icon_width = 30;
+
     // Font Variables
     final String baseFont   = "JetBrains Mono NL Regular Nerd Font Complete.ttf";
     final String smallFont  = "JetBrains Mono NL Regular Nerd Font Complete.ttf";
