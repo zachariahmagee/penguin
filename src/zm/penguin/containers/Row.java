@@ -3,13 +3,12 @@ package zm.penguin.containers;
 import zm.penguin.components.Component;
 import zm.penguin.interactions.ScrollBar;
 //import zm.penguin.interactions.Scrollable;
-import zm.penguin.interactions.Scrollable;
+import zm.penguin.interactions.ScrollableContainer;
 import zm.penguin.utils.Layout;
 
 import static processing.core.PApplet.*;
-import static zm.penguin.styles.Theme.*;
 
-public class Row<T extends Component> extends Scrollable<T> {
+public class Row<T extends Component> extends ScrollableContainer<T> {
     public int intitialWidth = 0;
 
     public Row(int l, int t, int r, int b) {
@@ -21,7 +20,7 @@ public class Row<T extends Component> extends Scrollable<T> {
         this.h = b - t;
 
         this.layout = Layout.HORIZONTAL;
-        this.scroll = new ScrollBar(true, false);
+        this.scroll = new ScrollBar(layout,false, this);
 
         this.border = 5;
         this.spacing = 5;

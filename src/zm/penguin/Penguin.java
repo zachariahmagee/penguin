@@ -4,12 +4,16 @@ import processing.core.*;
 import processing.event.*;
 
 import zm.penguin.components.Component;
+import zm.penguin.interactions.KeyListenable;
+import zm.penguin.interactions.Resizable;
 import zm.penguin.interactions.Scrollable;
 import zm.penguin.styles.Style;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import static processing.core.PApplet.println;
 
 /**
  * This is a template class and can be used to start a new processing Library.
@@ -64,7 +68,7 @@ public class Penguin {
 				break;
 			case MouseEvent.DRAG:
 				components.stream()
-						.filter(c -> (c instanceof Scrollable && ((Scrollable<?>)c).scroll.locked))
+						.filter(c -> (c instanceof Scrollable && ((Scrollable)c).locked()))
 						.forEach(c -> c.mouseDragged(x,y));
 				break;
 			case MouseEvent.ENTER:
@@ -73,8 +77,8 @@ public class Penguin {
 				break;
 			case MouseEvent.MOVE:
 				components.stream()
-						.filter(c -> c.mouseOver(x,y))
-						.forEach(c -> c.mouseMoved(x,y));
+//						.filter(c -> c.mouseOver(x,y))
+						.forEach(c -> c.handleMouseMove(x,y));//c.mouseMoved(x,y));
 				break;
 			case MouseEvent.PRESS:
 				components.stream()
@@ -89,7 +93,7 @@ public class Penguin {
 			case MouseEvent.WHEEL:
 				components.stream()
 						.filter(c -> c.mouseOver(x,y) && c instanceof Scrollable)
-						.forEach(c -> ((Scrollable<?>)c).scrollWheel(event.getCount()));
+						.forEach(c -> ((Scrollable)c).scrollWheel(event.getCount()));
 				break;
 			default:
 				break;
@@ -97,12 +101,38 @@ public class Penguin {
 	}
 
 	public void keyEvent(KeyEvent event) {
+		char key = event.getKey();
+		int keyCode = event.getKeyCode();
+		boolean shift = event.isShiftDown();
 
+		switch (event.getAction()) {
+			case KeyEvent.PRESS:
+				components.stream()
+						.filter(c -> c instanceof KeyListenable)
+						.forEach(c -> ((KeyListenable) c).keyPressed(key, keyCode, shift));
+				break;
+			case KeyEvent.RELEASE:
+				components.stream()
+						.filter(c -> c instanceof KeyListenable)
+						.forEach(c -> ((KeyListenable) c).keyReleased(key, keyCode));
+				break;
+			case KeyEvent.TYPE:
+
+			default:
+				break;
+		}
 	}
 
 	public void pre() {
-//		if (initialized && ((last_w != app.width) || (last_h != app.height))){
-//		}
+
+		if (initialized && ((last_w != app.width) || (last_h != app.height))) {
+
+			components.stream()
+					.filter(c -> c instanceof Resizable)
+					.forEach(c -> ((Resizable)c).changeWindowSize(app.width, app.height));
+			last_w = app.width;
+			last_h = app.height;
+		}
 	}
 
 	public void draw() {
@@ -118,6 +148,7 @@ public class Penguin {
 
 	public void add(Component...args) {
         Collections.addAll(components, args);
+		initialized = true;
 	}
 
 	public void setDebug(boolean debug) {

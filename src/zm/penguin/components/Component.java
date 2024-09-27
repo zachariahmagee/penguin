@@ -32,10 +32,12 @@ public abstract class Component {
 
     boolean onTop = false;
 
+    public boolean mouseInside = false;
     public Runnable action = () -> {};
     public Runnable move = () -> {};
     public Runnable release = () -> {};
 
+    public Component container = null;
 
     public Component() {
         this.app = Context.getApplet();
@@ -83,7 +85,7 @@ public abstract class Component {
     }
 
 
-    public boolean locationIsSet() { return false; }
+//    public boolean locationIsSet() { return false; }
 
     public void setColors() {}
 
@@ -131,6 +133,20 @@ public abstract class Component {
                 && (x <= l + (r - l))
         );
     }
+
+    public void handleMouseMove(int x, int y) {
+        boolean currentlyOver = mouseOver(x,y);
+        if (currentlyOver && !mouseInside) {
+            mouseInside = true;
+//            onMouseEnter();
+        } else if (!currentlyOver && mouseInside) {
+            mouseInside = false;
+//            onMouseExit();
+        } else if (currentlyOver) {
+//            onMouseHover();
+        }
+    }
+
     public void mouseDragged(int x, int y) {}
     public void mouseMoved(int x, int y) { move.run(); }
     public void mouseReleased(int x, int y) { release.run(); }

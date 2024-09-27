@@ -7,24 +7,19 @@ import zm.penguin.interactions.ScrollBar;
 import static zm.penguin.styles.Theme.*;
 import static zm.penguin.styles.Style.*;
 
-import zm.penguin.interactions.Scrollable;
+import zm.penguin.interactions.ScrollableContainer;
 import zm.penguin.utils.Layout;
 
 import static processing.core.PApplet.*;
 
-public class Column<T extends Component> extends Scrollable<T> {
+public class Column<T extends Component> extends ScrollableContainer<T> {
     public int initialHeight = 0;
 
-    public Column(int l, int t, int r, int b) {
-        this.l = l;
-        this.t = t;
-        this.r = r;
-        this.b = b;
-        this.w = r - l;
-        this.h = b - t;
+    public Column(int l, int t, int w, int h) {
+        setLocation(l,t,w,h);
 
         this.layout = Layout.VERTICAL;
-        this.scroll = new ScrollBar(false, false);
+        this.scroll = new ScrollBar(layout, false, this);
 
         this.border = 15;
         this.spacing = 5;
@@ -84,7 +79,7 @@ public class Column<T extends Component> extends Scrollable<T> {
             for (int i = 0; i < size(); i++) {
                 Component c = get(i);
                 if (i == 0) {
-
+                    prevHeight += spacing;
                 } else {
                     if (c instanceof Heading) {
                         prevHeight += get(i - 1).getHeight();
@@ -92,8 +87,9 @@ public class Column<T extends Component> extends Scrollable<T> {
                         prevHeight += get(i - 1).getHeight() + spacing;
                     }
                 }
-                get(i).setLocation(sL + border, sT + prevHeight);
-                get(i).draw();
+                c.setLocation(sL + border, sT + prevHeight);
+                c.draw();
+
             }
 
             app.noStroke();

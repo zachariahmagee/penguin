@@ -91,14 +91,24 @@ public abstract class Container<T extends Component> extends Component implement
     }
 
     @Override
+    public void handleMouseMove(int x, int y) {
+        super.handleMouseMove(x,y);
+        for (T c : this) {
+            c.handleMouseMove(x,y);
+        }
+    }
+    @Override
     public void mouseMoved(int x, int y) {
         for (T c : this) {
             if (c.mouseOver(x,y)) {
+                c.mouseInside = true;
                 if (c instanceof Container) {
                     ((Container<?>)c).mouseMoved(x,y);
                 } else {
                     c.mouseMoved(x,y);
                 }
+            } else {
+                c.mouseInside = false;
             }
         }
         move.run();
@@ -147,9 +157,9 @@ public abstract class Container<T extends Component> extends Component implement
         });
     }
 
-    public void keypressed(char c, int keycode) {
-
-    }
+//    public void keypressed(char c, int keycode) {
+//
+//    }
 
     public void deselectComponent(int x, int y) {
 

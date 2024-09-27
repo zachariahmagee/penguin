@@ -13,6 +13,8 @@ public class Style {
     public static int sidebar_w = 40;
     public static int sidepanel_w = 150;
     public static int controls_w = 200;
+//    public static int header_h = 30;
+    public static int tab_h = 30;
     public static int bottombar_h = 23;
 
     public static int spacing = 5;
