@@ -31,6 +31,6 @@ public class ButtonRow<T extends Component>  extends ButtonPanel<T> {
 
     @Override
     public String toString() {
-        return "";
+        return "ButtonRow";
     }
 }

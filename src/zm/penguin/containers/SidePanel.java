@@ -6,12 +6,12 @@ import zm.penguin.components.icons.CloseIcon;
 import zm.penguin.interactions.Resizable;
 import zm.penguin.interactions.Scrollable;
 
-import static processing.core.PConstants.CORNER;
+import static processing.core.PConstants.*;
 import static zm.penguin.styles.Style.*;
 import static zm.penguin.styles.Theme.*;
 
 public class SidePanel extends Container<Component> implements Scrollable, Resizable {
-    Column<Component> display;
+    public Column<Component> display;
     public Heading h1;
     public CloseIcon close;
     public int current = 0;
@@ -21,11 +21,19 @@ public class SidePanel extends Container<Component> implements Scrollable, Resiz
 
         display = new Column<>(l, t + button_h, w, h - button_h);
 
-        this.h1 = new Heading(h1, l + 15, t, base_font, tab_text);
+        this.h1 = new Heading(h1, l + 15, t, w, tab_h, base_font, tab_text);
+
         close = new CloseIcon(r, t, this);
+
+        components.add(this.h1);
+        components.add(this.close);
 
         this.f = fill;
         this.s = divider;
+
+        display.f = panel;
+
+        display.drawBackdrop = false;
     }
 
     @Override
@@ -40,16 +48,27 @@ public class SidePanel extends Container<Component> implements Scrollable, Resiz
         app.fill(panel);
         app.rect(l, t, w, h, 5); //bg
 
-        app.fill(button);
-        app.rect(l, t, w, tab_h); // behind heading;
+
 
         app.fill(divider);
         app.rect(l-1, t, 1, h); // left side
         app.rect(r, t, 1, h); // right side
-        app.rect(l, b - bottombar_h, w, 1); // bottom
-        app.rect(l, t + tab_h - 1, w, 1); // under header
+
+
 
         display.draw();
+
+        app.noStroke();
+        app.fill(button);
+        app.rect(l, t, w, tab_h); // behind heading;
+        app.fill(divider);
+        app.rect(l, t + tab_h, w, 1); // under header
+
+        app.fill(panel);
+        app.rect(l, b - bottombar_h, w, bottombar_h);
+        app.fill(s);
+        app.rect(l, b - bottombar_h, w, 1);
+        app.rect(r, b - bottombar_h, 1, b);
         for (Component c : this) c.draw();
     }
 
@@ -64,6 +83,7 @@ public class SidePanel extends Container<Component> implements Scrollable, Resiz
         if (h1 != null) h1.setLocation(l + 15, t);
     }
 
+
     @Override
     public void signalThemeChange(int theme) {
 
@@ -76,6 +96,45 @@ public class SidePanel extends Container<Component> implements Scrollable, Resiz
 
     @Override
     public boolean locked() { return display.locked(); }
+
+    @Override
+    public void click(int x, int y) {
+        display.click(x,y);
+        super.click(x, y);
+    }
+
+    @Override
+    public void setVisibility(boolean isVisible) {
+        if (isVisible) {
+//            setLocation()
+        }
+        display.setVisibility(isVisible);
+        super.setVisibility(isVisible);
+    }
+
+    @Override
+    public void mouseDragged(int x, int y) {
+        display.mouseDragged(x,y);
+        super.mouseDragged(x,y);
+    }
+
+    @Override
+    public void handleMouseMove(int x, int y) {
+        display.handleMouseMove(x,y);
+        super.handleMouseMove(x,y);
+    }
+
+    @Override
+    public void mouseMoved(int x, int y) {
+        display.mouseMoved(x,y);
+        super.mouseMoved(x,y);
+    }
+
+    @Override
+    public void mouseReleased(int x, int y) {
+       display.mouseReleased(x,y);
+       super.mouseReleased(x,y);
+    }
 
     @Override
     public void scrollWheel(float amount) {

@@ -4,7 +4,9 @@ import processing.core.*;
 import processing.event.*;
 
 import zm.penguin.components.Component;
+import zm.penguin.components.TextInput;
 import zm.penguin.interactions.KeyListenable;
+import zm.penguin.interactions.Lockable;
 import zm.penguin.interactions.Resizable;
 import zm.penguin.interactions.Scrollable;
 import zm.penguin.styles.Style;
@@ -68,7 +70,7 @@ public class Penguin {
 				break;
 			case MouseEvent.DRAG:
 				components.stream()
-						.filter(c -> (c instanceof Scrollable && ((Scrollable)c).locked()))
+						.filter(c -> ((c instanceof Lockable && ((Lockable)c).locked())) || c instanceof Scrollable && ((Scrollable)c).locked())
 						.forEach(c -> c.mouseDragged(x,y));
 				break;
 			case MouseEvent.ENTER:
@@ -109,7 +111,11 @@ public class Penguin {
 			case KeyEvent.PRESS:
 				components.stream()
 						.filter(c -> c instanceof KeyListenable)
-						.forEach(c -> ((KeyListenable) c).keyPressed(key, keyCode, shift));
+						.forEach(c -> {
+							if (!(c instanceof TextInput) || ((TextInput)c).selected) {
+								((KeyListenable) c).keyPressed(key, keyCode, shift);
+							}
+						});
 				break;
 			case KeyEvent.RELEASE:
 				components.stream()

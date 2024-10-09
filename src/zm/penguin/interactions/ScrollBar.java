@@ -38,12 +38,18 @@ public class ScrollBar extends Component {
 
         this.container = container;
 
+        this.onMouseEnter = () -> { app.cursor(HAND); };
+        this.onMouseExit = () -> { app.cursor(ARROW); };
+
     }
 
     @Override
     public void draw() {
+//        println(mouseInside);
+
         app.rectMode(CORNER);
         app.noStroke();
+
 
         if (layout.isVertical()) {
             app.fill(scrollbar_bg);
@@ -82,10 +88,13 @@ public class ScrollBar extends Component {
         this.w = newW;
         this.t = newT;
         this.h = newH;
+        this.r = l + w;
+        this.b = t + h;
         this.movementScaler = (totalElements / (float) totalLength);
     }
 
     public boolean mouseOver(int x, int y) {
+//        println(container.getClass(),x,y,l,t,w,h,mouseInside);
         if ((x >= l) && (x <= l + w) && (y >= t) && (y <= t + h)) {
             if (layout.isVertical()) {
                 mouseOffset = t + h - y;
@@ -102,10 +111,10 @@ public class ScrollBar extends Component {
     }
 
     public int move(int x, int y, int currentScroll, int minScroll, int maxScroll) {
-        int mainCoord = y;
-        if (!layout.isVertical()) mainCoord = x;
+        int mainCoordinate = y;
+        if (!layout.isVertical()) mainCoordinate = x;
 
-        int currentPosition = mainCoord + mouseOffset;
+        int currentPosition = mainCoordinate + mouseOffset;
         int elementsMoved = (int) ((currentPosition - (startPosition + mouseOffset)) * movementScaler);
 
         if (abs(elementsMoved) >= 1) {
@@ -123,7 +132,7 @@ public class ScrollBar extends Component {
                 currentScroll += elementsMoved;
                 if (currentScroll < minScroll) currentScroll = minScroll;
                 else if (currentScroll > maxScroll) currentScroll = maxScroll;
-                startPosition = mainCoord;
+                startPosition = mainCoordinate;
             }
         }
         return currentScroll;

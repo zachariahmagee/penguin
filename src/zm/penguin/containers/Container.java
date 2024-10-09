@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public abstract class Container<T extends Component> extends Component implements Iterable<T> {
-    protected List<T> components;
+    public List<T> components;
 
     public Container() {
         components = new ArrayList<T>();

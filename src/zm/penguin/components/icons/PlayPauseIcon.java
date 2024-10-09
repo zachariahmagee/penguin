@@ -36,12 +36,12 @@ public class PlayPauseIcon extends IconToggle {
         float one6th = (float)h/6;
         float onehalf = (float)w/2;
         app.stroke(outline);
-        app.fill(mouseInside?green:button);
+        app.fill(mouseInside?greenplay:button);
         app.triangle(l + one6th, t + one6th, l + one6th, b - one6th, r - one6th, t + onehalf);
     }
 
     @Override
     public String toString() {
-        return "PlayPauseIcon";
+        return "PlayPauseIcon:";
     }
 }

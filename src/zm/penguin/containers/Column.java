@@ -24,7 +24,7 @@ public class Column<T extends Component> extends ScrollableContainer<T> {
         this.border = 15;
         this.spacing = 5;
 
-        this.f = sidepanel;
+        this.f = panel;
         this.s = divider;
     }
 
@@ -36,13 +36,15 @@ public class Column<T extends Component> extends ScrollableContainer<T> {
             app.noStroke();
             app.textAlign(CENTER, CENTER);
 
-            app.fill(f);
-            app.rect(l, t, w, h);
+            if (drawBackdrop) {
+                app.fill(f);
+                app.rect(l, t, w, h);
+            }
+//            app.fill(s);
+//            app.rect(r, t, 1, h);
+//            app.rect(l, t, 1, h);
 
-            app.fill(s);
-            app.rect(r, t, 1, h);
-
-            h = b - bottombar_h - t;
+            h = b - t;
             int sT = t;
             int sL = l;
 
@@ -92,12 +94,14 @@ public class Column<T extends Component> extends ScrollableContainer<T> {
 
             }
 
-            app.noStroke();
-            app.fill(f);
-            app.rect(l, b - bottombar_h, w, bottombar_h);
-            app.fill(s);
-            app.rect(l, b - bottombar_h, w, 1);
-            app.rect(r, b - bottombar_h, 1, b);
+//            app.noStroke();
+////            if (drawBackdrop) {
+//                app.fill(f);
+//                app.rect(l, b - bottombar_h, w, bottombar_h);
+////            }
+//            app.fill(s);
+//            app.rect(l, b - bottombar_h, w, 1);
+//            app.rect(r, b - bottombar_h, 1, b);
 
             if (scroll.isVisible()) scroll.draw();
         } catch (Exception e) {

@@ -24,6 +24,10 @@ public class CloseIcon extends Icon {
         this.h = 20;
     }
 
+    public CloseIcon(Component container) {
+        this(container.r, container.t, container);
+    }
+
     @Override
     public void draw() {
         try {

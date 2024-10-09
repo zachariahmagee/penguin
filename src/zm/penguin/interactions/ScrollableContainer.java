@@ -15,7 +15,7 @@ public abstract class ScrollableContainer<T extends Component> extends Container
 
     public int contentHeight = 0;
     public int contentWidth = 0;
-
+    public boolean drawBackdrop = true;
 //    public int scrollbar_bg = idle;
 //    public int scrollbar_f  = lightgrey;
 //    public int startingPoint = 0;
@@ -102,7 +102,12 @@ public abstract class ScrollableContainer<T extends Component> extends Container
             scrollbarUpdate(x, y);
         }
 
-        super.mouseMoved(x,y);
+        super.mouseDragged(x,y);
+    }
+    @Override
+    public void handleMouseMove(int x, int y) {
+       scroll.handleMouseMove(x,y);
+       super.handleMouseMove(x,y);
     }
 
     @Override

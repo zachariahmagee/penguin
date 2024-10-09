@@ -3,10 +3,8 @@ package zm.penguin.components.icons;
 import zm.penguin.components.Icon;
 import zm.penguin.interactions.BooleanCondition;
 
-import static processing.core.PConstants.CORNER;
-import static zm.penguin.styles.Theme.*;
-
 public abstract class IconToggle extends Icon {
+
     BooleanCondition condition;
 
     public IconToggle(Runnable action, BooleanCondition condition) {
@@ -30,7 +28,7 @@ public abstract class IconToggle extends Icon {
 
     @Override
     public void draw() {
-        drawFirst();
+        if (drawBackdrop) drawBackdrop();
         if (condition.evaluate()) {
             drawTrue();
         } else {

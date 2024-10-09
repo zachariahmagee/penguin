@@ -6,8 +6,9 @@ import zm.penguin.interactions.Resizable;
 import zm.penguin.interactions.Scrollable;
 
 import static processing.core.PConstants.*;
+import static zm.penguin.styles.Style.bottombar_h;
 import static zm.penguin.styles.Style.button_h;
-import static zm.penguin.styles.Theme.divider;
+import static zm.penguin.styles.Theme.*;
 
 public class Sidebar extends Container<Component> implements Scrollable, Resizable {
     public Column<Icon> display;
@@ -20,6 +21,8 @@ public class Sidebar extends Container<Component> implements Scrollable, Resizab
 
         display = new Column<>(l,t + first.getHeight(),w,h-first.getHeight());
         display.spacing = display.border = border = spacing = 5;
+        this.f = display.f = sidepanel;
+        this.s = display.s = divider;
         add(this.first, display);
     }
 
@@ -38,11 +41,30 @@ public class Sidebar extends Container<Component> implements Scrollable, Resizab
     @Override
     public void draw() {
         app.rectMode(CORNER);
+        app.fill(f);
+        app.rect(l, t, w, h, 5); //bg
+
+        display.draw();
+
+
+        app.noStroke();
+        app.fill(f);
+        app.rect(l, b - bottombar_h, w, bottombar_h); // bottom
+        app.fill(s);
+        app.rect(l, b - bottombar_h, w, 1); // bottom left
+        app.rect(r, b - bottombar_h, 1, b); // bottom right
+
+
+
+        app.fill(divider);
+        app.rect(l-1, t, 1, h); // left side
+        app.rect(r, t, 1, h); // right side
+
+        first.draw();
+
         app.noStroke();
         app.fill(divider);
-        app.rect(r, t, 1, first.h + 1);
-        display.draw();
-        first.draw();
+        app.rect(r, t, 1, first.h);
     }
 
     @Override
@@ -71,7 +93,6 @@ public class Sidebar extends Container<Component> implements Scrollable, Resizab
 
     @Override
     public void changeWindowSize(int newW, int newH) {
-
         setLocation(l, t, w, newH - t);
     }
 }

@@ -24,7 +24,7 @@ public class RadioButton extends Component {
 
         this.f = Theme.button;
         this.s = Theme.outline;
-        this.accent = Theme.selected;
+        this.accentColor = Theme.selected;
     }
 
     public RadioButton(int x, int y, int w, Runnable action) {
@@ -40,7 +40,7 @@ public class RadioButton extends Component {
     @Override
     public void draw() {
         app.stroke(idle_text);
-        app.fill(radio?accent:f);
+        app.fill(radio? accentColor :f);
         app.ellipseMode(CENTER);
         app.circle(cx,cy,w);
     }

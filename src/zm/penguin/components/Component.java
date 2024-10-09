@@ -2,7 +2,6 @@ package zm.penguin.components;
 
 import processing.core.*;
 import zm.penguin.Context;
-import zm.penguin.containers.Container;
 
 public abstract class Component {
     protected PApplet app;
@@ -20,7 +19,7 @@ public abstract class Component {
 
     public int f;
     public int s;
-    public int accent;
+    public int accentColor;
 
     public int offsetX = 0, offsetY = 0;
 
@@ -37,6 +36,10 @@ public abstract class Component {
     public Runnable move = () -> {};
     public Runnable release = () -> {};
 
+    public Runnable onMouseEnter = () -> {};
+    public Runnable onMouseExit = () -> {};
+    public Runnable onMouseHover = () -> {};
+
     public Component container = null;
 
     public Component() {
@@ -45,13 +48,17 @@ public abstract class Component {
 
     public abstract void draw();
 
-    public abstract String toString();
-//    {
-//        return this.getClass().toString();
-//    }
+    public String toString()
+    {
+        return this.getClass().toString();
+    }
 
     public void setPApplet(PApplet app) {
         this.app = app;
+    }
+
+    public void toggleVisibility() {
+        this.isVisible = !isVisible;
     }
 
     public void setVisibility(boolean isVisible) { this.isVisible = isVisible; }
@@ -98,7 +105,7 @@ public abstract class Component {
         this.s = stroke;
     }
 
-    public void setAccent(int c) { this.accent = c; }
+    public void setAccent(int c) { this.accentColor = c; }
 
     public void setStrokeWeight(float weight) { this.strokeWeight = weight; }
 
@@ -125,6 +132,9 @@ public abstract class Component {
     }
     public void onRelease(Runnable function) { this.release = function; }
     public void onMouseMove(Runnable function) { this.move = function; }
+    public void setOnMouseEnter(Runnable fn) { this.onMouseEnter = fn; }
+    public void setOnMouseExit(Runnable fn) { this.onMouseExit = fn; }
+    public void setOnMouseHover(Runnable fn) { this.onMouseHover = fn; }
 
     public boolean mouseOver(int x, int y) {
         return ((y >= t)
@@ -138,12 +148,12 @@ public abstract class Component {
         boolean currentlyOver = mouseOver(x,y);
         if (currentlyOver && !mouseInside) {
             mouseInside = true;
-//            onMouseEnter();
+            onMouseEnter.run();
         } else if (!currentlyOver && mouseInside) {
             mouseInside = false;
-//            onMouseExit();
+            onMouseExit.run();
         } else if (currentlyOver) {
-//            onMouseHover();
+            onMouseHover.run();
         }
     }
 
