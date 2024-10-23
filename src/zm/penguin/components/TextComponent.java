@@ -7,7 +7,7 @@ import static zm.penguin.styles.Style.base_font;
 import static zm.penguin.styles.Theme.*;
 
 public abstract class TextComponent extends Component {
-    public String text;
+    public String text = "";
 
     public PFont font;
 

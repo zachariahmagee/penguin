@@ -1,10 +1,12 @@
 package zm.penguin.components;
 
+import java.util.UUID;
 import processing.core.*;
 import zm.penguin.Context;
 
 public abstract class Component {
     protected PApplet app;
+    private String componentID;
     public boolean debug = true;
     public boolean isVisible = false;
     public String name;
@@ -44,7 +46,10 @@ public abstract class Component {
 
     public Component() {
         this.app = Context.getApplet();
+        this.componentID = UUID.randomUUID().toString();
     }
+
+    public String getComponentID() { return componentID; }
 
     public abstract void draw();
 

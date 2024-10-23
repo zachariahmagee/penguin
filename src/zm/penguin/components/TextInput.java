@@ -1,6 +1,7 @@
 package zm.penguin.components;
 
 import zm.penguin.interactions.KeyListenable;
+import zm.penguin.interactions.Selectable;
 import zm.penguin.styles.Theme;
 
 import static processing.core.PApplet.println;
@@ -8,7 +9,7 @@ import static processing.core.PConstants.*;
 import static zm.penguin.styles.Theme.*;
 import static zm.penguin.styles.Theme.button_text;
 
-public class TextInput extends TextComponent implements KeyListenable {
+public class TextInput extends TextComponent implements KeyListenable, Selectable {
     public boolean selected = false, display = false;
     public String input = "";
     protected int curr = 0;
@@ -47,7 +48,6 @@ public class TextInput extends TextComponent implements KeyListenable {
     public void draw() {
         try {
             app.textAlign(alignX, alignY);
-
             app.textFont(font);
             app.textSize(textSize);
             app.rectMode(CORNER);
@@ -60,21 +60,26 @@ public class TextInput extends TextComponent implements KeyListenable {
                 drawCursor();
             }
             app.fill(textColor);
-            app.text(display?text:input, l + 5, t, w - 5, h);
+            app.text(/*display?text:*/input, l + 5, t, w - 5, h);
         } catch (Exception e) {
             println(this, "(draw)", e);
         }
     }
 
     public void addText(char c) {
+
         input += c;
+        println(input);
     }
 
     public void backspace() {
         try {
             if (!input.isEmpty()) {
                 input = input.substring(0, input.length() - 1);
+            } else {
+                input = "";
             }
+            println(input);
         } catch (Exception e) {
             if (debug) println(this, "(backspace)",input, e);
         }
@@ -82,6 +87,12 @@ public class TextInput extends TextComponent implements KeyListenable {
 
     public void select(boolean select) {
         this.selected = select;
+        this.display = false;
+    }
+
+    @Override
+    public boolean selected() {
+        return selected;
     }
 
     public void deselect() {
@@ -91,7 +102,7 @@ public class TextInput extends TextComponent implements KeyListenable {
 
     public void reset() {
         input = "";
-        selected = false;
+//        selected = false;
     }
 
     public boolean limitless() {

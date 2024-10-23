@@ -16,7 +16,7 @@ import static zm.penguin.styles.Style.button_w;
 import static zm.penguin.styles.Theme.*;
 
 public class PromptedInput extends Container<Component> implements KeyListenable, Selectable {
-    public Boolean selected;
+//    public Boolean selected;
     public String prompt = "";
     public TextInput input;
     public Button enter, reset;
@@ -26,7 +26,7 @@ public class PromptedInput extends Container<Component> implements KeyListenable
     public Runnable resetAction = () -> {};
 
     int textColor = tab_text;
-
+    boolean center = false;
     public PromptedInput(int l, int t, int w, int h, String prompt) {
         super();
         setLocation(l,t,w,h);
@@ -66,16 +66,24 @@ public class PromptedInput extends Container<Component> implements KeyListenable
     }
 
     public PromptedInput(int l, int t, String prompt) {
-        this(l, t,350,150, prompt);
+        this(l, t,405,135, prompt);
+
     }
 
     public PromptedInput(int l, int t, String prompt, Consumer<String> result) {
-        this(l, t,350,150, prompt, result);
+        this(l, t,405,135, prompt, result);
+    }
+
+    public PromptedInput() {
+        this(0,0,405, 135, "");
+        this.center = true;
     }
 
     @Override
     public void draw() {
         try {
+            if (center) setLocation(app.width / 2 - w / 2, app.height / 2 - h / 2);
+
             app.rectMode(CORNER);
             app.stroke(s);
             app.strokeWeight(1);
@@ -123,7 +131,13 @@ public class PromptedInput extends Container<Component> implements KeyListenable
         enter.setLocation(r - button_w - spacing, b - button_h - spacing);
         reset.setLocation(l + spacing, b - button_h - spacing);
         close.setLocation(r,t);
-        input.setLocation(l + spacing, t + h / 2 - button_h * 2);
+        input.setLocation(l + spacing, b - button_h * 2 - spacing * 2);
+    }
+
+    @Override
+    public void setVisibility(boolean isVisible) {
+        input.select(isVisible);
+        super.setVisibility(isVisible);
     }
 
     @Override
@@ -133,12 +147,12 @@ public class PromptedInput extends Container<Component> implements KeyListenable
 
     @Override
     public void keyPressed(char c, int keycode, boolean shift) {
-        if (input.selected) input.keyPressed(c, keycode, shift);
+        input.keyPressed(c, keycode, shift);
     }
 
     @Override
     public void keyReleased(char c, int keycode) {
-        if (input.selected) input.keyReleased(c,keycode);
+        input.keyReleased(c,keycode);
     }
 
     @Override

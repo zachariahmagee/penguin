@@ -2,14 +2,14 @@ package zm.penguin.interactions;
 
 import zm.penguin.components.Component;
 import zm.penguin.containers.Container;
-import zm.penguin.utils.Layout;
+import zm.penguin.utils.Orientation;
 
 import static processing.core.PConstants.HAND;
 import static processing.core.PConstants.TEXT;
 
 public abstract class ScrollableContainer<T extends Component> extends Container<T> implements Scrollable {
 
-    protected Layout layout = Layout.VERTICAL;
+    protected Orientation orientation = Orientation.VERTICAL;
     public ScrollBar scroll;
     protected int scrollAmount;
 
@@ -25,7 +25,7 @@ public abstract class ScrollableContainer<T extends Component> extends Container
     public Container<T> add(T...args) {
         for (T c : args) {
             this.components.add(c);
-            if (layout.isVertical()) {
+            if (orientation.isVertical()) {
                 this.contentHeight += c.getHeight() + spacing;
             } else {
                 this.contentWidth += c.getWidth() + spacing;
@@ -38,7 +38,7 @@ public abstract class ScrollableContainer<T extends Component> extends Container
     public Container<T> add(T c) {
         this.components.add(c);
         //this.contentHeight += c.getHeight() + spacing;
-        if (layout.isVertical()) {
+        if (orientation.isVertical()) {
             this.contentHeight += c.getHeight() + spacing;
         } else {
             this.contentWidth += c.getWidth() + spacing;
@@ -129,7 +129,7 @@ public abstract class ScrollableContainer<T extends Component> extends Container
     public boolean locked() { return scroll.locked; }
 
     public  void scrollWheel(float amount) {
-        if (layout.isVertical()) {
+        if (orientation.isVertical()) {
             if (mouseOver(app.mouseX, app.mouseY)//app.mouseX >= l && app.mouseX <= r && app.mouseY >= t && app.mouseY <= b
                     && scrollAmount != -1) {
                 scrollAmount += (int) (25 * amount);
@@ -148,7 +148,7 @@ public abstract class ScrollableContainer<T extends Component> extends Container
     public  void scrollbarUpdate(int x, int y) {
         if (scroll.active()) {
 //            int previousScroll = scrollAmount;
-            if (layout.isVertical()) {
+            if (orientation.isVertical()) {
                 scrollAmount = scroll.move(x, y, scrollAmount, 0, contentHeight - (app.height - (b-t)));
                 //if (previousScroll != scrollAmount) redrawUI = true;
             } else {

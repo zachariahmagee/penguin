@@ -1,12 +1,12 @@
 package zm.penguin.utils;
 
-public enum Layout {
+public enum Orientation {
     VERTICAL("VERTICAL"),
     HORIZONTAL("HORIZONTAL");
 
     final private String description;
 
-    Layout(String description) {
+    Orientation(String description) {
         this.description = description;
     }
 

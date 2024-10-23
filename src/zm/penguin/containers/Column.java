@@ -5,10 +5,9 @@ import zm.penguin.components.Heading;
 import zm.penguin.interactions.ScrollBar;
 
 import static zm.penguin.styles.Theme.*;
-import static zm.penguin.styles.Style.*;
 
 import zm.penguin.interactions.ScrollableContainer;
-import zm.penguin.utils.Layout;
+import zm.penguin.utils.Orientation;
 
 import static processing.core.PApplet.*;
 
@@ -18,8 +17,8 @@ public class Column<T extends Component> extends ScrollableContainer<T> {
     public Column(int l, int t, int w, int h) {
         setLocation(l,t,w,h);
 
-        this.layout = Layout.VERTICAL;
-        this.scroll = new ScrollBar(layout, false, this);
+        this.orientation = Orientation.VERTICAL;
+        this.scroll = new ScrollBar(orientation, false, this);
 
         this.border = 15;
         this.spacing = 5;

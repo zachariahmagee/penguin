@@ -1,8 +1,7 @@
 package zm.penguin.interactions;
 
-import processing.core.PApplet;
 import zm.penguin.components.Component;
-import zm.penguin.utils.Layout;
+import zm.penguin.utils.Orientation;
 
 import static zm.penguin.styles.Theme.*;
 
@@ -20,15 +19,15 @@ public class ScrollBar extends Component {
     boolean inverted;
     boolean active;
     public boolean locked = false;
-    public Layout layout;
+    public Orientation orientation;
 
     static public final boolean HORIZONTAL = true;
     static public final boolean VERTICAL = false;
     static public final boolean INVERT = true;
     static public final boolean NORMAL = false;
 
-    public ScrollBar(Layout layout, boolean inverted, Component container) {
-        this.layout = layout;
+    public ScrollBar(Orientation orientation, boolean inverted, Component container) {
+        this.orientation = orientation;
         this.inverted = inverted;
         this.mouseOffset = 0;
         this.active = false;
@@ -51,7 +50,7 @@ public class ScrollBar extends Component {
         app.noStroke();
 
 
-        if (layout.isVertical()) {
+        if (orientation.isVertical()) {
             app.fill(scrollbar_bg);
             app.rect(l, container.t, w, container.h);
 
@@ -68,7 +67,7 @@ public class ScrollBar extends Component {
 
     @Override
     public String toString() {
-        return "Scrollbar: " + layout;
+        return "Scrollbar: " + orientation;
     }
 
     public boolean active() {
@@ -82,7 +81,7 @@ public class ScrollBar extends Component {
     public void update(int totalElements, int totalLength, int newL, int newT, int newW, int newH) {
         this.totalElements = totalElements;
         this.totalLength = totalLength;
-        if (layout.isVertical()) this.mouseOffset += (newT + newH) - (t + h);
+        if (orientation.isVertical()) this.mouseOffset += (newT + newH) - (t + h);
         else this.mouseOffset += (newL + newW) - (l + w);
         this.l = newL;
         this.w = newW;
@@ -96,7 +95,7 @@ public class ScrollBar extends Component {
     public boolean mouseOver(int x, int y) {
 //        println(container.getClass(),x,y,l,t,w,h,mouseInside);
         if ((x >= l) && (x <= l + w) && (y >= t) && (y <= t + h)) {
-            if (layout.isVertical()) {
+            if (orientation.isVertical()) {
                 mouseOffset = t + h - y;
                 startPosition = y;
             } else {
@@ -112,7 +111,7 @@ public class ScrollBar extends Component {
 
     public int move(int x, int y, int currentScroll, int minScroll, int maxScroll) {
         int mainCoordinate = y;
-        if (!layout.isVertical()) mainCoordinate = x;
+        if (!orientation.isVertical()) mainCoordinate = x;
 
         int currentPosition = mainCoordinate + mouseOffset;
         int elementsMoved = (int) ((currentPosition - (startPosition + mouseOffset)) * movementScaler);
@@ -121,7 +120,7 @@ public class ScrollBar extends Component {
             if (inverted) elementsMoved = -elementsMoved;
             if ( ( (elementsMoved < 0) && (currentScroll == minScroll) )
                     || ((elementsMoved > 0) && (currentScroll == maxScroll)) ) {
-                if (layout.isVertical()) {
+                if (orientation.isVertical()) {
                     mouseOffset = t + h - y;
                     startPosition = y;
                 } else {

@@ -4,7 +4,7 @@ import zm.penguin.components.Component;
 import zm.penguin.interactions.ScrollBar;
 //import zm.penguin.interactions.Scrollable;
 import zm.penguin.interactions.ScrollableContainer;
-import zm.penguin.utils.Layout;
+import zm.penguin.utils.Orientation;
 
 import static processing.core.PApplet.*;
 
@@ -19,8 +19,8 @@ public class Row<T extends Component> extends ScrollableContainer<T> {
         this.w = r - l;
         this.h = b - t;
 
-        this.layout = Layout.HORIZONTAL;
-        this.scroll = new ScrollBar(layout,false, this);
+        this.orientation = Orientation.HORIZONTAL;
+        this.scroll = new ScrollBar(orientation,false, this);
 
         this.border = 5;
         this.spacing = 5;

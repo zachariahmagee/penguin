@@ -6,7 +6,7 @@ import zm.penguin.Context;
 import zm.penguin.components.Component;
 
 public abstract class Content<T extends Component> extends Container<T> {
-    PGraphics graphics;
+    protected PGraphics graphics;
 
     public Content() {
         this.graphics = app.g;
