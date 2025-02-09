@@ -154,8 +154,8 @@ ${line}
 	
 	<target name="generate.jar">
 		<jar jarfile="${project.tmp}/${project.name}/${folder}/${project.jar.name}" basedir="${project.bin}"/>
+		<copy file="${project.tmp}/${project.name}/${folder}/${project.jar.name}" tofile="/Users/zachariah/Documents/Development/penguin-graph/lib/${project.jar.name}"/>
 	</target>
-	
 	
 	<target name="generate.structure">
 		<delete dir="${project.tmp}" />
@@ -233,7 +233,7 @@ ${line}
 			</fileset>
 	 	</javadoc>
 	</target>
-	
+
 	
 	<target name="generate.web" if="is.normal">
 		

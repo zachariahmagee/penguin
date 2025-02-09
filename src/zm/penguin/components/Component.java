@@ -1,10 +1,13 @@
 package zm.penguin.components;
 
+import java.util.UUID;
 import processing.core.*;
+import zm.penguin.Context;
 
 public abstract class Component {
     protected PApplet app;
-
+    private String componentID;
+    public boolean debug = true;
     public boolean isVisible = false;
     public String name;
 
@@ -18,7 +21,7 @@ public abstract class Component {
 
     public int f;
     public int s;
-    public int accent;
+    public int accentColor;
 
     public int offsetX = 0, offsetY = 0;
 
@@ -30,20 +33,42 @@ public abstract class Component {
 
     boolean onTop = false;
 
+    public boolean mouseInside = false;
     public Runnable action = () -> {};
+    public Runnable move = () -> {};
+    public Runnable release = () -> {};
+
+    public Runnable onMouseEnter = () -> {};
+    public Runnable onMouseExit = () -> {};
+    public Runnable onMouseHover = () -> {};
+
+    public Component container = null;
+
+    public Component() {
+        this.app = Context.getApplet();
+        this.componentID = UUID.randomUUID().toString();
+    }
+
+    public String getComponentID() { return componentID; }
 
     public abstract void draw();
 
-    public abstract String toString();
-//    {
-//        return this.getClass().toString();
-//    }
+    public String toString()
+    {
+        return this.getClass().toString();
+    }
 
     public void setPApplet(PApplet app) {
         this.app = app;
     }
 
-    void setVisibility(boolean isVisible) { this.isVisible = isVisible; }
+    public void toggleVisibility() {
+        this.isVisible = !isVisible;
+    }
+
+    public void setVisibility(boolean isVisible) { this.isVisible = isVisible; }
+
+    public boolean isVisible() { return isVisible; }
 
     public void action() {
         this.action.run();
@@ -72,7 +97,7 @@ public abstract class Component {
     }
 
 
-    public boolean locationIsSet() { return false; }
+//    public boolean locationIsSet() { return false; }
 
     public void setColors() {}
 
@@ -85,7 +110,7 @@ public abstract class Component {
         this.s = stroke;
     }
 
-    public void setAccent(int c) { this.accent = c; }
+    public void setAccent(int c) { this.accentColor = c; }
 
     public void setStrokeWeight(float weight) { this.strokeWeight = weight; }
 
@@ -110,6 +135,11 @@ public abstract class Component {
     public void onClick(Runnable function) {
         this.action = function;
     }
+    public void onRelease(Runnable function) { this.release = function; }
+    public void onMouseMove(Runnable function) { this.move = function; }
+    public void setOnMouseEnter(Runnable fn) { this.onMouseEnter = fn; }
+    public void setOnMouseExit(Runnable fn) { this.onMouseExit = fn; }
+    public void setOnMouseHover(Runnable fn) { this.onMouseHover = fn; }
 
     public boolean mouseOver(int x, int y) {
         return ((y >= t)
@@ -118,6 +148,23 @@ public abstract class Component {
                 && (x <= l + (r - l))
         );
     }
+
+    public void handleMouseMove(int x, int y) {
+        boolean currentlyOver = mouseOver(x,y);
+        if (currentlyOver && !mouseInside) {
+            mouseInside = true;
+            onMouseEnter.run();
+        } else if (!currentlyOver && mouseInside) {
+            mouseInside = false;
+            onMouseExit.run();
+        } else if (currentlyOver) {
+            onMouseHover.run();
+        }
+    }
+
+    public void mouseDragged(int x, int y) {}
+    public void mouseMoved(int x, int y) { move.run(); }
+    public void mouseReleased(int x, int y) { release.run(); }
 
     public void signalThemeChange(int theme) {
 

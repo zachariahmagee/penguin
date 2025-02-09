@@ -18,15 +18,26 @@ public class Button extends TextComponent {
         this.w = Style.button_w;
         this.h = Style.button_h;
         this.f = Theme.button1;
+        this.s = Theme.outline;
+        this.textColor = Theme.button_text;
     }
+
     public Button(String text) {
         this();
         this.text = text;
     }
+
     public Button(String text, Runnable action) {
         this(text);
         this.action = action;
     }
+
+    public Button(String text, Runnable action, int fill) {
+        this(text);
+        this.action = action;
+        this.f = fill;
+    }
+
     public Button(String text, Runnable action, PFont font) {
         this(text, action);
         this.font = font;

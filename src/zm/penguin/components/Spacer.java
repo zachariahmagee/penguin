@@ -1,17 +1,17 @@
 package zm.penguin.components;
 
 public class Spacer extends Component {
-    Spacer() {
+    public Spacer() {
         this.h = 15;
         this.w = 120;
     }
 
-    Spacer(int h) {
+    public Spacer(int h) {
         this.h = h;
         this.w = 120;
     }
 
-    Spacer(int h, int w) {
+    public Spacer(int h, int w) {
         this.h = h;
         this.w = w;
     }

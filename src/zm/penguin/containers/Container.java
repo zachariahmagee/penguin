@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public abstract class Container<T extends Component> extends Component implements Iterable<T> {
-    List<T> components;
+    public List<T> components;
 
     public Container() {
         components = new ArrayList<T>();
@@ -61,12 +61,23 @@ public abstract class Container<T extends Component> extends Component implement
         return this.components.size();
     }
 
+    public void setBorder(int border) {
+        this.border = border;
+        components.forEach((c)->{ c.setContainerBorder(border); });
+    }
+
+    public void setSpacing(int spacing) {
+        this.spacing = spacing;
+        components.forEach((c)->{ c.setContainerSpacing(spacing); });
+    }
+
     public void changeSize(int newL, int newT, int newR, int newB) {
         this.l = newL;
-
         this.t = newT;
         this.r = newR;
         this.b = newB;
+        this.w = r - l;
+        this.h = b - t;
     }
 
     @Override
@@ -78,15 +89,45 @@ public abstract class Container<T extends Component> extends Component implement
     public int indexOf(T c) {
         return components.indexOf(c);
     }
-    //abstract void scrollWheel(float amount);
 
-    //abstract void scrollbarUpdate(int xcoord, int ycoord);
+    @Override
+    public void handleMouseMove(int x, int y) {
+        super.handleMouseMove(x,y);
+        for (T c : this) {
+            c.handleMouseMove(x,y);
+        }
+    }
+    @Override
+    public void mouseMoved(int x, int y) {
+        for (T c : this) {
+            if (c.mouseOver(x,y)) {
+                c.mouseInside = true;
+                if (c instanceof Container) {
+                    ((Container<?>)c).mouseMoved(x,y);
+                } else {
+                    c.mouseMoved(x,y);
+                }
+            } else {
+                c.mouseInside = false;
+            }
+        }
+        move.run();
+    }
 
-    public void mouseMoved(int x, int y) {}
+    @Override
+    public void mouseDragged(int x, int y) {
+        for (T c : this) {
+            if (c.mouseOver(x,y)) {
+                if (c instanceof Container) {
+                    ((Container<?>)c).mouseDragged(x,y);
+                } else {
+                    c.mouseDragged(x,y);
+                }
+            }
+        }
+    }
 
-    public void mouseDragged(int x, int y) {}
-
-    //abstract
+    @Override
     public void click(int x, int y) {
         for (T c : this) {
             if (c.mouseOver(x,y)) {
@@ -97,13 +138,28 @@ public abstract class Container<T extends Component> extends Component implement
                 }
             }
         }
+        action.run();
     }
 
-    //void onClick(Runnable fn) {}
-
-    public void keypressed(char c, int keycode) {
-
+    @Override
+    public void mouseReleased(int x, int y) {
+        for (Component c : components) {
+           c.mouseReleased(x,y);
+        }
+        release.run();
     }
+
+    @Override
+    public void setVisibility(boolean newState) {
+        this.isVisible = newState;
+        components.forEach((c)->{
+            c.setVisibility(newState);
+        });
+    }
+
+//    public void keypressed(char c, int keycode) {
+//
+//    }
 
     public void deselectComponent(int x, int y) {
 

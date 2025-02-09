@@ -90,6 +90,8 @@ public class Theme {
     public static final int error          = orange;
     public static final int error_text     = norange;
 
+    public static final int scrollbar_bg = idle;
+    public static final int scrollbar = lightgrey;
 
 }
 
@@ -179,7 +181,7 @@ public class Theme {
 //    public static int heading;
 //
 //    public static int highlight;
-//    public static int accent;
+//    public static int accentColor;
 //    public static int alt_accent;
 //
 //    public static int error;
@@ -215,7 +217,7 @@ public class Theme {
 //        heading = app.color(22, 43, 189);
 //
 //        highlight = lightblue;
-//        accent = lightblue;
+//        accentColor = lightblue;
 //        alt_accent = bluegreen;
 //
 //        error = orange;

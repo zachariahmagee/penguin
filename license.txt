@@ -1,9 +1,9 @@
-A template to build a Library for the Processing programming environment.
+PenGUIn - A Graphical User Interface Library for Processing
 
-Part of the Processing project - http://processing.org
+This project relies upon the Processing project - http://processing.org
+And was built with the template to build a Library for the Processing programming environment.
 
-Copyright 2011-2018 Elie Zananiri
-Copyright 2008-2011 Andreas Shlegel
+Copyright 2024-2025 Zachariah Magee
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
