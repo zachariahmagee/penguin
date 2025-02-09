@@ -7,6 +7,7 @@ public class AnimateComponent {
     Component component;
     private long startTime;
     public int duration;
+    Coordinate start, end;
 
     public AnimateComponent(Component component) {
         this.component = component;
